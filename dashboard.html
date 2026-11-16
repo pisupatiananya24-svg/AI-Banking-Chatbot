@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banking Assistant | Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{{ url_for('dashboard') }}"><span class="brand-mark small">B</span> Banking Assistant</a>
+    <a class="logout" href="{{ url_for('logout') }}">Log out</a>
+  </header>
+
+  <main class="dashboard">
+    <section class="welcome-row">
+      <div>
+        <p class="eyebrow">ACCOUNT OVERVIEW</p>
+        <h1>Welcome back, {{ customer["full_name"] }}</h1>
+        <p class="muted">Here is a summary of your demo account.</p>
+      </div>
+      <div class="profile-chip">{{ customer["full_name"][0] }}</div>
+    </section>
+
+    <section class="summary-grid">
+      <article class="balance-card">
+        <p>AVAILABLE BALANCE</p>
+        <h2>₹{{ "{:,.2f}".format(customer["balance"]) }}</h2>
+        <span>{{ customer["account_type"] }}</span>
+      </article>
+      <article class="info-card">
+        <p class="muted">ACCOUNT HOLDER</p>
+        <h3>{{ customer["full_name"] }}</h3>
+        <p class="muted">Account number</p>
+        <strong>{{ customer["account_number"] }}</strong>
+      </article>
+    </section>
+
+    <section class="activity-card">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">YOUR ACCOUNT</p>
+          <h2>Recent activity</h2>
+        </div>
+        <span class="status-pill">Demo data</span>
+      </div>
+      {% for item in transactions %}
+        <div class="transaction">
+          <div class="transaction-icon">{{ "↓" if item["transaction_type"] == "debit" else "↑" }}</div>
+          <div class="transaction-info">
+            <strong>{{ item["description"] }}</strong>
+            <span>{{ item["transaction_date"] }}</span>
+          </div>
+          <strong class="{{ item['transaction_type'] }}">
+            {{ "-" if item["transaction_type"] == "debit" else "+" }}₹{{ "{:,.2f}".format(item["amount"]) }}
+          </strong>
+        </div>
+      {% else %}
+        <p class="muted">No transactions available.</p>
+      {% endfor %}
+    </section>
+  </main>
+
+  <button id="chat-toggle" class="chat-toggle" aria-label="Open banking assistant">AI</button>
+  <section id="chat-panel" class="chat-panel hidden" aria-label="Banking assistant chat">
+    <div class="chat-header">
+      <div><strong>Banking Assistant</strong><span>Ask a general banking question</span></div>
+      <button id="chat-close" class="close-btn" aria-label="Close chat">×</button>
+    </div>
+    <div id="chat-messages" class="chat-messages">
+      <div class="message bot">Hello! I can help with common banking questions. What would you like to know?</div>
+    </div>
+    <div class="quick-questions">
+      <button data-question="What is my account balance?">Balance</button>
+      <button data-question="Show recent transactions">Transactions</button>
+      <button data-question="How can I contact support?">Support</button>
+    </div>
+    <form id="chat-form" class="chat-form">
+      <input id="chat-input" type="text" placeholder="Type your question..." autocomplete="off" required>
+      <button type="submit">Send</button>
+    </form>
+  </section>
+
+  <script src="{{ url_for('static', filename='chat.js') }}"></script>
+</body>
+</html>

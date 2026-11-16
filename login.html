@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banking Assistant | Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="login-page">
+  <main class="login-card">
+    <div class="brand-mark">B</div>
+    <p class="eyebrow">SECURE DEMO PORTAL</p>
+    <h1>Welcome back</h1>
+    <p class="muted">Sign in to access your banking dashboard.</p>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="alert">{{ messages[0] }}</div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('login') }}">
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" placeholder="Enter username" required>
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" placeholder="Enter password" required>
+      <button class="primary-btn" type="submit">Login</button>
+    </form>
+    <p class="demo-hint">Demo login: <strong>ananya</strong> / <strong>1234</strong></p>
+    <p class="small-note">Academic demonstration only. Do not enter real banking credentials.</p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,9 @@
+PROJECT DATASET AND RELATED LINKS
+
+This prototype does not use an external dataset at runtime. Its sample FAQ entries, customer profile and transaction records are created locally by app.py.
+
+Optional public datasets for future intent-classification experiments:
+1. Banking77: https://huggingface.co/datasets/PolyAI/banking77
+2. CLINC150: https://huggingface.co/datasets/clinc/clinc_oos
+
+These are public intent-classification datasets, not real bank account/customer datasets.
